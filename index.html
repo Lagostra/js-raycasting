@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body>
+    <canvas id="my-canvas">
+
+    </canvas>
+
+    <script type="module">
+        import { Main } from './app/main.js';
+
+        let canvas = document.getElementById("my-canvas");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.onresize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+
+        let main = new Main(canvas);
+        main.start();
+    </script>
+</body>
+</html>
