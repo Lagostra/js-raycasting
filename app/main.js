@@ -1,25 +1,24 @@
 import { Level } from './level/level.js';
 import { Camera } from "./camera.js";
 
+const inputs = [];
+window.onkeydown = e => {
+    console.log(e.key);
+    inputs[e.key] = true;
+}
+
+window.onkeyup = e => {
+    inputs[e.key] = false;
+}
+
 export class Main {
 
     constructor(canvas) {
         this.timer = null;
         this.UPDATE_INTERVAL = 1000 / 60.0;
         this.canvas = canvas;
-        this.camera = new Camera(5, 5, 2.0, 1.57);
 
         this.level = new Level();
-
-        document.onkeypress = e => {
-            if(e.key === 'd') {
-                this.camera.direction += 0.1;
-                console.log(this.camera.direction);
-            } else if(e.key === 'a') {
-                this.camera.direction -= 0.1;
-                console.log(this.camera.direction);
-            }
-        }
     }
 
     start() {
@@ -33,6 +32,9 @@ export class Main {
     }
 
     tick() {
+        this.level.tick()
+
+
         this.draw();
     }
 
@@ -41,7 +43,7 @@ export class Main {
         c.fillStyle = '#000000';
         c.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.camera.drawLevel(this.level, this.canvas);
+        this.level.draw(this.canvas);
 
         /*for (let y = 0; y < this.level.height; y++) {
             for (let x = 0; x < this.level.width; x++) {
@@ -51,6 +53,10 @@ export class Main {
                 }
             }
         }*/
+    }
+
+    static isKeyDown(key) {
+        return key in inputs && inputs[key];
     }
 }
  

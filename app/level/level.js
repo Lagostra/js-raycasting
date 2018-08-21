@@ -1,5 +1,6 @@
 import { Block } from './block.js';
 import { SolidBlock } from "./solid-block.js";
+import { Player } from "../player.js";
 
 function distance(v1, v2) {
     return Math.sqrt(Math.pow(v1[0] - v2[0], 2) + Math.pow(v1[1] - v2[1], 2));
@@ -18,6 +19,8 @@ export class Level {
         let playerX = parseFloat(lines[1].split(',')[0]);
         let playerY = parseFloat(lines[1].split(',')[1]);
         let playerRotation = parseFloat(lines[2]);
+
+        this.player = new Player([playerX, playerY], playerRotation, this);
 
         this.blocks = [];
         for(let y = 0; y < this.height; y++) {
@@ -94,6 +97,14 @@ export class Level {
                 }
             }
         }
+    }
+
+    tick() {
+        this.player.tick();
+    }
+
+    draw(canvas) {
+        this.player.draw(canvas);
     }
 
 }
