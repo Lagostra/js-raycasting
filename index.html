@@ -15,13 +15,15 @@
 
         let canvas = document.getElementById("my-canvas");
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = 640;//window.innerWidth;
+        canvas.height = 480;//window.innerHeight;
 
+        /*
         window.onresize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         };
+        */
 
         let main = new Main(canvas);
         main.start();

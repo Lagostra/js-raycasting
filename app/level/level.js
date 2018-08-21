@@ -1,6 +1,10 @@
 import { Block } from './block.js';
 import { SolidBlock } from "./solid-block.js";
 
+function distance(v1, v2) {
+    return Math.sqrt(Math.pow(v1[0] - v2[0], 2) + Math.pow(v1[1] - v2[1], 2));
+}
+
 export class Level {
 
     constructor() {
@@ -50,6 +54,46 @@ export class Level {
             }.bind(this);
             request.send();
         });
+    }
+
+    raycast(pos, dir) {
+        let dir_vec = [Math.sin(dir), Math.cos(dir)];
+        let step = Math.max(...dir_vec.map(x => Math.abs(x)));
+        let dx = dir_vec[0] / step;
+        let dy = dir_vec[1] / step;
+        let x = pos[0];
+        let y = pos[1];
+        let i = 0;
+
+        while(true) {
+            x += dx;
+            y += dy;
+            i++;
+
+
+
+            if(Number.isInteger(x) && dx != 0) {
+                if(dx > 0) { // Right
+                    if(x == this.width || this.blocks[Math.floor(y)][x].solid) {
+                        return distance(pos, [x, y]);
+                    }
+                } else { // Left
+                    if(x == 0 || this.blocks[Math.floor(y)][x - 1].solid) {
+                        return distance(pos, [x, y]);
+                    }
+                }
+            } else if(Number.isInteger(y) && dy != 0) {
+                if(dy > 0) { // Down
+                    if(y == this.height || this.blocks[y][Math.floor(x)].solid) {
+                        return distance(pos, [x, y]);
+                    }
+                } else { // Up
+                    if(y == 0 || this.blocks[y - 1][Math.floor(x)].solid) {
+                        return distance(pos, [x, y]);
+                    }
+                }
+            }
+        }
     }
 
 }
